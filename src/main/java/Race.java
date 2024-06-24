@@ -10,9 +10,8 @@ public class Race {
     ArrayList<Car> cars = new ArrayList<>();
 
     public void calculateWinner(ArrayList<Car> cars) {
-
-        Iterator<Car> iterator = cars.iterator();
         winner = cars.get(0);
+        Iterator<Car> iterator = cars.iterator();
         while (iterator.hasNext()) {
             Car element = iterator.next();
             if (element.speed >= winner.speed) {
@@ -34,17 +33,17 @@ public class Race {
                 carInput();
             } else if (command == 2) {
                 calculateWinner(cars);
-                System.out.println("Побеждает тачка:" + winner.name);
+                System.out.println("Побеждает тачка:" + winner.name + " со скоростью " + winner.speed);
             } else if (command == 0) {
                 System.out.println("Выход");
                 break;
             } else {
-                System.out.println("Извините, такой команды пока нет.");
+                System.out.println("Извините, такой команды пока нет");
             }
         }
     }
 
-    public static void printMenu() {
+    public void printMenu() {
         System.out.println("Что вы хотите сделать? ");
         System.out.println("1 - Добавить тачку");
         System.out.println("2 - Узнать победителя гонки");
@@ -53,11 +52,12 @@ public class Race {
 
     public void carInput() {
         while (true) {
+            System.out.println("Введите скорость > 0 но =< 250");
+            Integer speed = scanner.nextInt();
+            scanner.nextLine();
             System.out.println("Введите название тачилы");
             String name = scanner.nextLine();
 
-            System.out.println("Введите скорость > 0 но =< 250");
-            Integer speed = scanner.nextInt();
             if (speed <= 0) {
                 System.out.println(
                         "Вы ввели отрицательную скорость.Введите скорость > 0 но =< 250"
@@ -67,8 +67,8 @@ public class Race {
                         "Вы ввели слишком большую скорость. Введите скорость > 0 но =< 250"
                 );
             } else {
-                cars.add(new Car(speed, name));
-                calculateWinner(cars);
+                Car car = new Car(speed, name);
+                cars.add(car);
                 System.out.println("Тачка успешно создана!");
                 break;
             }
