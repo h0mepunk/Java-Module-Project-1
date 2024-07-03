@@ -11,18 +11,14 @@ public class Race {
 
     public void calculateWinner(ArrayList<Car> cars) {
         winner = cars.get(0);
-        Iterator<Car> iterator = cars.iterator();
-        while (iterator.hasNext()) {
-            Car element = iterator.next();
-            if (element.speed >= winner.speed) {
-                winner = element;
+        for(Car car: cars) {
+            if (car.getSpeed() >= winner.getSpeed()) {
+                winner = car;
             }
         }
     }
 
     public void contestStart() {
-        // ваш код начнется здесь
-        // вы не должны ограничиваться только классом Main и можете создавать свои классы по необходимости
 
         System.out.println("Введите команду ");
 
@@ -33,7 +29,7 @@ public class Race {
                 carInput();
             } else if (command == 2) {
                 calculateWinner(cars);
-                System.out.println("Побеждает тачка:" + winner.name + " со скоростью " + winner.speed);
+                System.out.println("Побеждает тачка:" + winner.getName() + " со скоростью " + winner.getSpeed());
             } else if (command == 0) {
                 System.out.println("Выход");
                 break;
