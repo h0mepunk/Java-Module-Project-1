@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Iterator;
 import java.util.Scanner;
 
@@ -48,26 +49,69 @@ public class Race {
 
     public void carInput() {
         while (true) {
-            System.out.println("Введите скорость > 0 но =< 250");
-            Integer speed = scanner.nextInt();
-            scanner.nextLine();
-            System.out.println("Введите название тачилы");
-            String name = scanner.nextLine();
+            Integer speed = inputSpeed();
+            String name = inputName();
+            Car car = new Car(speed, name);
+            cars.add(car);
+            System.out.println("Тачка успешно создана!");
+            break;
+        }
+    }
 
-            if (speed <= 0) {
-                System.out.println(
-                        "Вы ввели отрицательную скорость.Введите скорость > 0 но =< 250"
-                );
-            } else if (speed > 250) {
-                System.out.println(
-                        "Вы ввели слишком большую скорость. Введите скорость > 0 но =< 250"
-                );
+    private String inputName() {
+        System.out.println("Введите название тачилы");
+        return scanner.nextLine();
+    }
+
+    private Integer inputSpeed() {
+        Integer speed;
+        while(true) {
+            speed = scanSpeed();
+            if (checkSpeed(speed)) {
+                break;
             } else {
-                Car car = new Car(speed, name);
-                cars.add(car);
-                System.out.println("Тачка успешно создана!");
+                speed = inputSpeed();
                 break;
             }
         }
+        return speed;
+    }
+
+    private Boolean checkSpeed(Integer speed) {
+        Boolean isCorrect;
+        if (speed <= 0) {
+            System.out.println(
+                    "Вы ввели отрицательную скорость.Введите скорость > 0 но =< 250"
+            );
+            isCorrect = false;
+        } else if (speed > 250) {
+            System.out.println(
+                    "Вы ввели слишком большую скорость. Введите скорость > 0 но =< 250"
+            );
+            isCorrect = false;
+        } else {
+            isCorrect = true;
+        }
+        return isCorrect;
+    }
+
+    private Integer scanSpeed() {
+        Integer speed;
+        System.out.println("Введите скорость > 0 но =< 250");
+        while (true) {
+            try {
+                speed = scanner.nextInt();
+                scanner.nextLine(); // очищаем буфер
+                if (speed > 0 && speed <= 250) {
+                    break; // выход из цикла при корректном вводе
+                } else {
+                    System.out.println("Введите скорость в пределах > 0 но =< 250");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Вы ввели неверные данные. Введите скорость > 0 но =< 250 как целое число");
+                scanner.nextLine(); // очищаем буфер
+            }
+        }
+        return speed;
     }
 }
